@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Name: Molly Johnson
+# ONID: johnsmol
+# CS 344 Winter 2019
+# Assignment 4
+# Due: 3/17/19
+# All information used to create this code is adapted from the OSU CS 344 Winter 2019
+# lectures and assignment instructions/hints unless otherwise specifically indicated.
+# Also adapted from my own work previously created on 11/30/18 (I took the class previously
+# in the Fall 2018 term but am retaking for a better grade).
+
+# commands include compiling using the gcc compiler (raw c, no -std=c99 added ), -Wall flag
+#(so can see more compiler warnings), -g flag (so can use gdb for debugging), and -o flag
+#(tells it to write the built output to the specified file).
+
+# command to make otp_enc_d executable
+gcc -Wall -g -o otp_enc_d otp_enc_d.c SharedFunctions.c
+
+# command to make otp_enc executable
+gcc -Wall -g -o otp_enc otp_enc.c SharedFunctions.c
+
+# command to make otp_dec_d executable
+gcc -Wall -g -o otp_dec_d otp_dec_d.c SharedFunctions.c
+
+# command to make otp_dec executable
+gcc -Wall -g -o otp_dec otp_dec.c SharedFunctions.c
+
+# command to make keygen executable
+gcc -Wall -g -o keygen keygen.c SharedFunctions.c
