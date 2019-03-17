@@ -77,19 +77,31 @@ int main(int argc, char *argv[]){
 	//check that all cipher text chars are valid. if not, print error message to stderr and exit w 
 	//non-zero exit status
 	if(CharInputValidation(cipherBuf) == FALSE){
-		Error("error! invalid character(s) in your ciphertext file\n", 1);
+		char message[256];
+		strcpy(message, "otp_dec error: ");
+		strcat(message, argv[1]);
+		strcat(message, " input contains bad characters\n");
+		Error(message, 1);
 	}
 
 	//check that all key text chars are valid. if not, print error message to stderr and exit w 
 	//non-zero exit status
 	if(CharInputValidation(keyBuf) == FALSE){
-		Error("error! invalid character(s) in your key file\n", 1);
+		char message[256];
+		strcpy(message, "otp_dec error: ");
+		strcat(message, argv[2]);
+		strcat(message, " input contains bad characters\n");
+		Error(message, 1);
 	}
 
 	//check that they key buffer length is valid (i.e. is at least as long as the ciphertext buffer).
 	//if it's not, print error message to stderr and exit w non-zero exit status.
 	if(IsValidLength(cipherBuf, keyBuf) == FALSE){
-		Error("error! key file is shorter than the ciphertext file\n", 1);
+		char message[256];
+		strcpy(message, "Error: key '");
+		strcat(message, argv[2]);
+		strcat(message, "' is too short\n");
+		Error(message, 1);
 	}
 
 	//concat the special chars onto the ciphertext and key text strings to be looked for by the
@@ -203,8 +215,9 @@ int main(int argc, char *argv[]){
 		//if the otp_enc_d server did return a bad connection message since otp_dec tried to connect to it, create an error message
 		//string, print to stderr and exit with an exit value of 2.
 		char message[256];
-		strcpy(message, "otp_dec (client): ERROR connecting to otp_dec_d (server on port ");
-		strcat(message, argv[3]); strcat(message, ")\n");
+		strcpy(message, "otp_dec: Error: could not contact otp_dec_d on port ");
+		strcat(message, argv[3]); strcat(message, ". ");
+		strcat(message, "otp_dec cannot use otp_enc_d.\n");
 		Error(message, 2);
 	}
 	

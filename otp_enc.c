@@ -78,19 +78,31 @@ int main(int argc, char *argv[]){
 	//check that all plaintext chars are valid. if not, print error message to stderr and exit w/
 	//non-zero exit status
 	if(CharInputValidation(plainBuf) == FALSE){
-		Error("error! invalid character(s) in your plaintext file\n", 1);
+		char message[256];
+		strcpy(message, "otp_enc error: ");
+		strcat(message, argv[1]);
+		strcat(message, " input contains bad characters\n");
+		Error(message, 1);
 	}
 
 	//check that all keytext chars are valid. if not, print error message to stderr and exit w/
 	//non-zero exit status
 	if(CharInputValidation(keyBuf) == FALSE){
-		Error("error! invalid character(s) in your key file\n", 1);
+		char message[256];
+		strcpy(message, "otp_enc error: ");
+		strcat(message, argv[2]);
+		strcat(message, " input contains bad characters\n");
+		Error(message, 1);
 	}
 
 	//check that the key buffer length is valid (i.e. is at least as long as the plaintext buffer).
 	//if it's not, print error message to stderr and exit w/ non-zero exit status
 	if(IsValidLength(plainBuf, keyBuf) == FALSE){
-		Error("error! key file is shorter than the plaintext file\n", 1);
+		char message[256];
+		strcpy(message, "Error: key '");
+		strcat(message, argv[2]);
+		strcat(message, "' is too short\n");
+		Error(message, 1);
 	}
 
 	//concat the special chars onto the plaintext and key strings to be looked for 
@@ -202,8 +214,9 @@ int main(int argc, char *argv[]){
 		//if the otp_dec_d server did return a bad connection message since otp_enc tried to connect to it, create an error message
 		//string, print to stderr and exit with an exit value of 2.
 		char message[256];
-		strcpy(message, "otp_enc (client): ERROR connecting to otp_enc_d (server on port ");
-		strcat(message, argv[3]); strcat(message, ")\n");
+		strcpy(message, "otp_enc: Error: could not contact otp_enc_d on port ");
+		strcat(message, argv[3]); strcat(message, ". ");
+		strcat(message, "otp_enc cannot use otp_dec_d.\n");
 		Error(message, 2);
 	}
 	
